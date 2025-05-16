@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple PPPoE Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --background: hsl(221, 100%, 96%);
+            --primary-color: hsl(252, 100%, 67%);
+            --secondary-color: hsl(241, 81%, 54%);
+            --white: #ffffff;
+            --text-color: #333333;
+            --border-radius: 16px;
+            --box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            --font-family: 'Hanken Grotesk', sans-serif;
+        }
+
+        /* Theme variations */
+        .joash-theme {
+            --primary-color: hsl(217, 100%, 67%);
+            --secondary-color: hsl(213, 81%, 45%);
+        }
+        
+        .airfibers-theme {
+            --primary-color: hsl(0, 100%, 67%);
+            --secondary-color: hsl(0, 81%, 45%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--background);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .wrapper {
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: var(--secondary-color);
+        }
+
+        .main-card {
+            background: linear-gradient(
+                to bottom,
+                var(--primary-color),
+                var(--secondary-color)
+            );
+            border-radius: var(--border-radius);
+            color: var(--white);
+            padding: 30px;
+            text-align: center;
+            box-shadow: var(--box-shadow);
+            margin-bottom: 20px;
+        }
+
+        .status-title {
+            font-size: 18px;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .status-circle {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: linear-gradient(
+                to bottom,
+                hsla(256, 72%, 46%, 1),
+                hsla(241, 72%, 46%, 0)
+            );
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 20px;
+        }
+
+        .status-value {
+            font-size: 40px;
+            font-weight: 700;
+        }
+
+        .status-label {
+            font-size: 14px;
+            opacity: 0.7;
+        }
+
+        .status-message {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .status-detail {
+            font-size: 14px;
+            opacity: 0.8;
+            max-width: 80%;
+            margin: 0 auto;
+        }
+
+        .metrics-card {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: var(--box-shadow);
+            margin-bottom: 20px;
+        }
+
+        .metrics-title {
+            font-size: 18px;
+            color: var(--text-color);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .metric-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .metric-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 15px;
+            border-radius: 8px;
+            background-color: rgba(0, 0, 0, 0.03);
+        }
+
+        .metric-name {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+        }
+
+        .metric-value {
+            font-weight: 700;
+        }
+
+        .metric-value span {
+            opacity: 0.5;
+            font-weight: 400;
+        }
+
+        .actions-card {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: var(--box-shadow);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .action-button {
+            background: linear-gradient(
+                to right,
+                var(--primary-color),
+                var(--secondary-color)
+            );
+            color: var(--white);
+            border: none;
+            border-radius: 25px;
+            padding: 12px;
+            font-family: var(--font-family);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .secondary-button {
+            background-color: rgba(0, 0, 0, 0.05);
+            color: var(--text-color);
+            border: none;
+            border-radius: 25px;
+            padding: 12px;
+            font-family: var(--font-family);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Dark mode */
+        body.dark {
+            --background: hsl(235, 30%, 15%);
+            --text-color: #ffffff;
+        }
+
+        body.dark .metrics-card,
+        body.dark .actions-card {
+            background-color: hsl(235, 30%, 20%);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        body.dark .secondary-button {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--white);
+        }
+
+        @media (max-width: 600px) {
+            .wrapper {
+                padding: 0 10px;
+            }
+            
+            .status-circle {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .status-value {
+                font-size: 36px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="header">
+            <div class="logo">
+                <i class="fas fa-wifi"></i> PPPoE Manager
+            </div>
+        </div>
+
+        <div class="main-card">
+            <h2 class="status-title">Connection Status</h2>
+            <div class="status-circle">
+                <div class="status-value">76</div>
+                <div class="status-label">of 100</div>
+            </div>
+            <div class="status-message">Connected</div>
+            <div class="status-detail">Your internet connection is stable and performing well</div>
+        </div>
+
+        <div class="metrics-card">
+            <h3 class="metrics-title">Connection Metrics</h3>
+            <div class="metric-list">
+                <div class="metric-item">
+                    <div class="metric-name">
+                        <i class="fas fa-download"></i>
+                        <span>Download</span>
+                    </div>
+                    <div class="metric-value">42.5 <span>Mbps</span></div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-name">
+                        <i class="fas fa-upload"></i>
+                        <span>Upload</span>
+                    </div>
+                    <div class="metric-value">18.2 <span>Mbps</span></div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-name">
+                        <i class="fas fa-clock"></i>
+                        <span>Uptime</span>
+                    </div>
+                    <div class="metric-value">14:27 <span>hours</span></div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-name">
+                        <i class="fas fa-database"></i>
+                        <span>Data Used</span>
+                    </div>
+                    <div class="metric-value">247.8 <span>GB</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="actions-card">
+            <button class="action-button">
+                <i class="fas fa-sync-alt"></i>
+                <span>Reconnect</span>
+            </button>
+            <button class="secondary-button">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+            </button>
+            <button class="secondary-button" id="theme-toggle">
+                <i class="fas fa-moon"></i>
+                <span>Toggle Dark Mode</span>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Apply hostname-based theming
+        function applyThemeByHostname() {
+            const url = window.location.hostname;
+            const body = document.body;
+            let brandName = 'PPPoE Manager';
+            
+            // Change theme based on hostname
+            if(url === "test.joash.me") {
+                body.classList.add('joash-theme');
+                brandName = 'Joash PPPoE';
+                document.querySelector('.logo').innerHTML = `<i class="fas fa-network-wired"></i> ${brandName}`;
+            } else if (url === 'test.airfibers.com') {
+                body.classList.add('airfibers-theme');
+                brandName = 'AirFibers PPPoE';
+                document.querySelector('.logo').innerHTML = `<i class="fas fa-wifi"></i> ${brandName}`;
+            }
+            
+            // For testing in local environments
+            if (url === 'localhost' || url === '127.0.0.1') {
+                const fakeUrl = new URLSearchParams(window.location.search).get('domain');
+                if (fakeUrl === 'joash') {
+                    body.classList.add('joash-theme');
+                    document.querySelector('.logo').innerHTML = `<i class="fas fa-network-wired"></i> Joash PPPoE`;
+                } else if (fakeUrl === 'airfibers') {
+                    body.classList.add('airfibers-theme');
+                    document.querySelector('.logo').innerHTML = `<i class="fas fa-wifi"></i> AirFibers PPPoE`;
+                }
+            }
+        }
+        
+        // Apply theme on page load
+        applyThemeByHostname();
+        
+        // Setup theme toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = themeToggle.querySelector('i');
+        const themeText = themeToggle.querySelector('span');
+        
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark');
+            
+            if (document.body.classList.contains('dark')) {
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+                themeText.textContent = 'Toggle Light Mode';
+            } else {
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+                themeText.textContent = 'Toggle Dark Mode';
+            }
+        });
+        
+        // Simulate connection status changes
+        setInterval(() => {
+            // 95% chance to stay connected
+            if (Math.random() > 0.95) {
+                const statusMessage = document.querySelector('.status-message');
+                const statusDetail = document.querySelector('.status-detail');
+                const mainCard = document.querySelector('.main-card');
+                
+                if (statusMessage.textContent === 'Connected') {
+                    statusMessage.textContent = 'Disconnected';
+                    statusDetail.textContent = 'Your internet connection has been lost';
+                    document.querySelector('.status-value').textContent = '0';
+                } else {
+                    statusMessage.textContent = 'Connected';
+                    statusDetail.textContent = 'Your internet connection is stable and performing well';
+                    document.querySelector('.status-value').textContent = '76';
+                }
+            }
+        }, 20000);
+    </script>
+</body>
+</html>
