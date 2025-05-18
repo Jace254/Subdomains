@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotspot Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-light: #3b82f6;
+            --primary-dark: #1d4ed8;
+            --primary-gradient-start: #2563eb;
+            --primary-gradient-end: #1e40af;
+            --warning: #facc15;
+            --positive: #4ade80;
+            --negative: #ef4444;
+            --black: #000000;
+            --white: #ffffff;
+            --light-gray: #f3f4f6;
+            --gray: #e5e7eb;
+            --dark-gray: #6b7280;
+            --card-bg: rgba(255, 255, 255, 0.1);
+            --blue-card: rgba(59, 130, 246, 0.15);
+            --border-radius: 16px;
+            --border-radius-lg: 24px;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--white);
+            color: var(--black);
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Main Content */
+        .main-content {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Header Banner */
+        .header-banner {
+            background: linear-gradient(to right, var(--primary-gradient-start), var(--primary-gradient-end));
+            color: var(--white);
+            padding: 1.5rem 1.5rem 2.5rem 1.5rem;
+            border-radius: 0 0 24px 24px;
+            position: relative;
+            overflow: hidden;
+            height: 400px;
+            z-index: -1;
+        }
+
+        .header-banner::before {
+            content: '';
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            top: -100px;
+            right: -50px;
+            z-index: 0;
+        }
+
+        .header-banner::after {
+            content: '';
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            bottom: -30px;
+            left: -50px;
+            z-index: 0;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            border: 2px solid var(--white);
+            overflow: hidden;
+        }
+
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .greeting-text {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .time-info {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        /* Internet Stats Card */
+        .internet-stats {
+            background-color: var(--blue-card);
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius-lg);
+            padding: 1.5rem;
+            margin: -17rem 1.5rem 1.5rem 1.5rem;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--white);
+        }
+
+        .stats-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .stat-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            background-color: rgba(255, 255, 255, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+        }
+
+        .stat-value {
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-align: center;
+            margin-top: 0.25rem;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            opacity: 0.8;
+            text-align: center;
+        }
+
+        .ip-row {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .ip-info, .status-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .status-info {
+            align-items: flex-end;
+        }
+
+        .connected-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: rgba(74, 222, 128, 0.2);
+            padding: 0.35rem 0.75rem;
+            border-radius: 12px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--positive);
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            background-color: var(--white);
+            border-radius: var(--border-radius-lg);
+            margin: 0 1.5rem 1.5rem 1.5rem;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .actions-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        .action-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1.25rem 0.5rem;
+            gap: 0.5rem;
+            text-decoration: none;
+            color: var(--dark-gray);
+        }
+
+        .action-icon {
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: var(--primary);
+        }
+
+        .action-name {
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        /* Section Headers */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 0 1.5rem 1rem 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--black);
+        }
+
+        .see-all {
+            font-size: 0.85rem;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        /* Recommended Packages */
+        .packages-list {
+            padding: 0 1.5rem;
+            margin-bottom: 5rem; /* Space for mobile nav */
+        }
+
+        .package-item {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--light-gray);
+        }
+
+        .package-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .package-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background-color: rgba(37, 99, 235, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+
+        .package-info {
+            flex: 1;
+            justify-content: space-between
+        }
+
+        .package-apps {
+            font-size: 0.75rem;
+            color: var(--dark-gray);
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .package-details {
+            display: flex;
+            font-size: 0.8rem;
+            color: var(--dark-gray);
+            margin-bottom: 0.25rem;
+        }
+
+        .package-details span {
+            margin-right: 0.5rem;
+        }
+
+        .package-type {
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .package-price {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-top: 0.5rem;
+        }
+
+        .package-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .buy-button {
+            background-color: var(--primary-light);
+            color: var(--white);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        /* Mobile Navigation */
+        .mobile-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--white);
+            display: flex;
+            justify-content: space-around;
+            padding: 0.75rem 0;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+            z-index: 10;
+        }
+
+        .mobile-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25rem;
+            color: var(--dark-gray);
+            text-decoration: none;
+            font-size: 0.7rem;
+        }
+
+        .mobile-nav-item.active {
+            color: var(--primary);
+        }
+
+        .mobile-nav-item i {
+            font-size: 1.2rem;
+        }
+
+        /* Balance Card */
+        .balance-card {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 0 1.5rem 1.5rem 1.5rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--light-gray);
+        }
+
+        .balance-title {
+            font-size: 1rem;
+            color: var(--dark-gray);
+            margin-bottom: 0.5rem;
+        }
+
+        .balance-amount {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--black);
+        }
+    </style>
+</head>
+<body>
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Header Banner -->
+        <div class="header-banner">
+            <div class="header-content">
+                <div class="user-info">
+                    <div class="profile-avatar">
+                        <img src="https://i.pravatar.cc/100?img=3" alt="Profile">
+                    </div>
+                    <div>
+                        <div class="greeting-text">Hello, Pondenet</div>
+                        <div class="time-info">Good Night, 20:00 PM</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Internet Stats Card -->
+        <div class="internet-stats">
+            <div class="stats-row">
+                <div class="stat-box">
+                    <div class="stat-icon">
+                        <i class="fas fa-arrow-down"></i>
+                    </div>
+                    <div class="stat-value">1024 Mib</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-icon">
+                        <i class="fas fa-arrow-up"></i>
+                    </div>
+                    <div class="stat-value">3024 Mib</div>
+                </div>
+                <div class="stat-box">
+                    <div class="connected-status">
+                        <div class="status-dot"></div>
+                        <span>Connected</span>
+                    </div>
+                </div>
+            </div>
+            <div class="ip-row">
+                <div class="ip-info">
+                    <div class="stat-label">IP Address</div>
+                    <div class="stat-value">192.168.87</div>
+                </div>
+                <div class="status-info">
+                    <div class="stat-label">Status refresh</div>
+                    <div class="stat-value">1 Min</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+            <div class="actions-grid">
+                <a href="#" class="action-item">
+                    <div class="action-icon">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <div class="action-name">Pulsa</div>
+                </a>
+                <a href="#" class="action-item">
+                    <div class="action-icon">
+                        <i class="fas fa-ticket-alt"></i>
+                    </div>
+                    <div class="action-name">Voucher</div>
+                </a>
+                <a href="#" class="action-item">
+                    <div class="action-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <div class="action-name">Listrik</div>
+                </a>
+                <a href="#" class="action-item">
+                    <div class="action-icon">
+                        <i class="fas fa-th"></i>
+                    </div>
+                    <div class="action-name">All</div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Balance Card -->
+        <div class="balance-card">
+            <div class="balance-title">Your Balance</div>
+            <div class="balance-amount">KES 2,000</div>
+        </div>
+
+        <!-- Recommended Packages Section -->
+        <div class="section-header">
+            <div class="section-title">Recommended</div>
+            <a href="#" class="see-all">See all</a>
+        </div>
+
+        <div class="packages-list">
+            <div class="package-item">
+                <div class="package-header">
+                    <div class="package-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <div class="package-info">
+                        <div class="package-details">
+                            <span>5 hour package</span> • <span>for 1 device</span>
+                        </div>
+                        <div class="package-type">Unlimited</div>
+                    </div>
+                    <div class="package-apps">All apps</div>
+                </div>
+                <div class="package-actions">
+                    <div class="package-price">KES 2.000</div>
+                    <button class="buy-button">Buy now</button>
+                </div>
+            </div>
+
+            <div class="package-item">
+                <div class="package-header">
+                    <div class="package-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <div class="package-info">
+                        <div class="package-details">
+                            <span>1 day package</span> • <span>for 2 devices</span>
+                        </div>
+                        <div class="package-type">Unlimited</div>
+                    </div>
+                    <div class="package-apps">All apps</div>
+                </div>
+                <div class="package-actions">
+                    <div class="package-price">KES 5.000</div>
+                    <button class="buy-button">Buy now</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation -->
+        <nav class="mobile-nav">
+            <a href="#" class="mobile-nav-item active">
+                <i class="fas fa-home"></i>
+                <span>Beranda</span>
+            </a>
+            <a href="#" class="mobile-nav-item">
+                <i class="fas fa-shopping-bag"></i>
+                <span>Shopping</span>
+            </a>
+            <a href="#" class="mobile-nav-item">
+                <i class="fas fa-question-circle"></i>
+                <span>Help</span>
+            </a>
+            <a href="#" class="mobile-nav-item">
+                <i class="fas fa-user"></i>
+                <span>Account</span>
+            </a>
+        </nav>
+    </main>
+
+    <script>
+        // Get current time to display 
+        const updateTimeInfo = () => {
+            const timeInfoElement = document.querySelector('.time-info');
+            
+            const now = new Date();
+            const hour = now.getHours();
+            const minutes = now.getMinutes();
+            
+            // Format time as HH:MM AM/PM
+            const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+            let period = 'AM';
+            let displayHour = hour;
+            
+            if (hour >= 12) {
+                period = 'PM';
+                displayHour = hour === 12 ? 12 : hour - 12;
+            }
+            if (displayHour === 0) displayHour = 12;
+            
+            // Set greeting based on time of day
+            let greeting = 'Good Morning';
+            if (hour >= 12 && hour < 17) {
+                greeting = 'Good Afternoon';
+            } else if (hour >= 17) {
+                greeting = 'Good Evening';
+            } else if (hour >= 20 || hour < 5) {
+                greeting = 'Good Night';
+            }
+            
+            timeInfoElement.textContent = `${greeting}, ${displayHour}:${formattedMinutes} ${period}`;
+        };
+        
+        // Update time initially
+        updateTimeInfo();
+        
+        // Update time every minute
+        setInterval(updateTimeInfo, 60000);
+    </script>
+</body>
+</html>

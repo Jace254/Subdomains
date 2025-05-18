@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fixoria - Hotel Management System</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    /* Reset and Base Styles */
+:root {
+  /* Colors - Brand */
+  --color-primary: #4CAF50;
+  --color-secondary: #2196F3;
+  --color-accent: #FFC107;
+  --color-error: #F44336;
+  
+  /* Colors - Neutral */
+  --color-background: #F5F5F5;
+  --color-surface: #FFFFFF;
+  --color-text-primary: #212121;
+  --color-text-secondary: #757575;
+  --color-border: #E0E0E0;
+  --color-icon: #9E9E9E;
+  
+  /* Typography */
+  --font-family-base: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-size-xl: 24px;
+  --font-size-lg: 18px;
+  --font-size-md: 14px;
+  --font-size-sm: 12px;
+  --font-size-xs: 10px;
+  
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+  
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.5;
+  
+  /* Spacing */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  
+  /* Border Radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-full: 999px;
+  
+  /* Shadows */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.1);
+  
+  /* Animation */
+  --transition-base: 150ms ease-in-out;
+  
+  /* Component Specific */
+  --sidebar-width: 240px;
+  --header-height: 60px;
+  --container-width: 960px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-md);
+  line-height: var(--line-height-normal);
+  color: var(--color-text-primary);
+  background-color: var(--color-background);
+}
+
+ul {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  background: none;
+  border: none;
+  font-family: inherit;
+  font-size: inherit;
+  cursor: pointer;
+}
+
+/* Layout */
+.app-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+  width: var(--sidebar-width);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-md);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-weight: var(--font-weight-medium);
+}
+
+.logo-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background-color: var(--color-primary);
+  color: white;
+  border-radius: var(--radius-sm);
+}
+
+.sidebar-toggle {
+  color: var(--color-icon);
+}
+
+.hotel-info {
+  display: flex;
+  align-items: center;
+  padding: var(--space-md);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.hotel-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background-color: var(--color-primary);
+  color: white;
+  border-radius: var(--radius-full);
+  margin-right: var(--space-sm);
+}
+
+.hotel-details {
+  flex: 1;
+}
+
+.hotel-name {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-medium);
+}
+
+.hotel-status {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+}
+
+.dropdown-toggle {
+  color: var(--color-icon);
+}
+
+/* Navigation */
+.sidebar-nav {
+  flex: 1;
+  padding: var(--space-md) 0;
+}
+
+.nav-group {
+  margin-bottom: var(--space-lg);
+}
+
+.nav-group-title {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  padding: 0 var(--space-md);
+  margin-bottom: var(--space-sm);
+}
+
+.nav-item {
+  position: relative;
+}
+
+.nav-item.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background-color: var(--color-primary);
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  padding: var(--space-sm) var(--space-md);
+  color: var(--color-text-secondary);
+  transition: var(--transition-base);
+}
+
+.nav-item.active .nav-link {
+  color: var(--color-text-primary);
+  font-weight: var(--font-weight-medium);
+}
+
+.nav-link:hover {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+.nav-icon {
+  margin-right: var(--space-sm);
+}
+
+.nav-text {
+  flex: 1;
+}
+
+.dropdown-icon {
+  font-size: var(--font-size-xs);
+}
+
+/* Sidebar Footer */
+.sidebar-footer {
+  padding: var(--space-md);
+  border-top: 1px solid var(--color-border);
+}
+
+.footer-nav {
+  margin-bottom: var(--space-md);
+}
+
+.footer-item {
+  margin-bottom: var(--space-sm);
+}
+
+.footer-link {
+  display: flex;
+  align-items: center;
+  padding: var(--space-sm) 0;
+}
+
+.badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  background-color: var(--color-error);
+  color: white;
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+}
+
+.user-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background-color: var(--color-secondary);
+  color: white;
+  border-radius: var(--radius-full);
+  margin-right: var(--space-sm);
+}
+
+.user-name {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-medium);
+}
+
+.user-role {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+}
+
+/* Main Content */
+.main-content {
+  flex: 1;
+  padding: var(--space-md);
+  overflow-y: auto;
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  margin-bottom: var(--space-md);
+  font-size: var(--font-size-sm);
+}
+
+.breadcrumb-item {
+  color: var(--color-text-secondary);
+}
+
+.breadcrumb-separator {
+  margin: 0 var(--space-xs);
+  color: var(--color-text-secondary);
+}
+
+.page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: var(--space-lg);
+}
+
+.page-title {
+  display: flex;
+  align-items: flex-start;
+}
+
+.title-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background-color: var(--color-surface);
+  border-radius: var(--radius-md);
+  margin-right: var(--space-md);
+  box-shadow: var(--shadow-sm);
+}
+
+.title-content h1 {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-medium);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.favorite-icon {
+  color: var(--color-text-secondary);
+}
+
+.title-subtitle {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
+.action-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  color: var(--color-text-secondary);
+  border-radius: var(--radius-full);
+  transition: var(--transition-base);
+}
+
+.action-button:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Plan Selection */
+.plan-selection {
+  margin-top: var(--space-lg);
+}
+
+.billing-toggle {
+  display: flex;
+  justify-content: center;
+  margin-bottom: var(--space-xl);
+  gap: var(--space-md);
+}
+
+.billing-option {
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-secondary);
+  position: relative;
+}
+
+.billing-option.active {
+  background-color: rgba(0, 0, 0, 0.04);
+  color: var(--color-text-primary);
+  font-weight: var(--font-weight-medium);
+}
+
+.discount-tag {
+  display: inline-block;
+  background-color: var(--color-primary);
+  color: white;
+  font-size: var(--font-size-xs);
+  padding: 2px var(--space-xs);
+  border-radius: var(--radius-sm);
+  margin-left: var(--space-xs);
+}
+
+.plan-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-lg);
+}
+
+.plan-card {
+  background-color: var(--color-surface);
+  border-radius: var(--radius-md);
+  padding: var(--space-lg);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: var(--transition-base);
+}
+
+.plan-card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.plan-card.highlighted {
+  border: 1px solid var(--color-accent);
+}
+
+.popular-tag {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--color-accent);
+  color: var(--color-text-primary);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  padding: var(--space-xs) var(--space-md);
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.plan-discount {
+  position: absolute;
+  top: var(--space-md);
+  right: var(--space-md);
+}
+
+.plan-header {
+  margin-bottom: var(--space-lg);
+}
+
+.plan-name {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--space-sm);
+}
+
+.plan-description {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  line-height: 1.4;
+}
+
+.plan-price {
+  text-align: left;
+  margin-bottom: var(--space-lg);
+}
+
+.price {
+  display: flex;
+  align-items: baseline;
+}
+
+.currency {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+}
+
+.amount {
+  font-size: 32px;
+  font-weight: var(--font-weight-bold);
+  line-height: 1;
+}
+
+.price-original {
+  color: var(--color-text-secondary);
+  text-decoration: line-through;
+  font-size: var(--font-size-sm);
+  margin-top: var(--space-xs);
+}
+
+.price-label {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  margin-top: var(--space-xs);
+}
+
+.plan-button {
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-sm);
+  font-weight: var(--font-weight-medium);
+  width: 100%;
+  margin-bottom: var(--space-lg);
+  transition: var(--transition-base);
+}
+
+.plan-button.current {
+  background-color: var(--color-background);
+  color: var(--color-text-secondary);
+  cursor: default;
+}
+
+.plan-button.primary {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+.plan-button.primary:hover {
+  background-color: #3d8b40; /* Darker shade of primary */
+}
+
+.plan-button.secondary {
+  background-color: var(--color-secondary);
+  color: white;
+}
+
+.plan-button.secondary:hover {
+  background-color: #1976d2; /* Darker shade of secondary */
+}
+
+.feature-list {
+  margin-top: auto;
+}
+
+.feature-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: var(--space-sm);
+}
+
+.feature-icon {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: var(--space-sm);
+  color: var(--color-primary);
+}
+
+.feature-text {
+  font-size: var(--font-size-sm);
+}
+
+/* Responsive styles */
+@media (max-width: 1024px) {
+  .plan-cards {
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+  }
+  
+  .plan-card {
+    max-width: 500px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .app-container {
+    flex-direction: column;
+  }
+  
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  
+  .sidebar-nav {
+    display: none;
+  }
+  
+  .sidebar-header, .hotel-info {
+    padding: var(--space-sm);
+  }
+  
+  .main-content {
+    padding: var(--space-sm);
+  }
+}
+
+@media (max-width: 480px) {
+  .page-title {
+    flex-direction: column;
+  }
+  
+  .title-icon {
+    margin-bottom: var(--space-sm);
+    margin-right: 0;
+  }
+  
+  .billing-toggle {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+/* Accessibility Enhancements */
+:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+/* Dark mode support (as a bonus) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-background: #121212;
+    --color-surface: #1e1e1e;
+    --color-text-primary: #e0e0e0;
+    --color-text-secondary: #a0a0a0;
+    --color-border: #333333;
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.3);
+  }
+  
+  .plan-button.current {
+    background-color: #333333;
+  }
+}
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">
+          <span class="logo-icon">F</span>
+          <span class="logo-text">Fixoria ™</span>
+        </div>
+        <button class="sidebar-toggle" aria-label="Toggle sidebar">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 8H14M2 4H14M2 12H14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+      
+      <div class="hotel-info">
+        <div class="hotel-avatar">G</div>
+        <div class="hotel-details">
+          <h2 class="hotel-name">Grand Sylhet Hotel</h2>
+          <span class="hotel-status">3 admins online</span>
+        </div>
+        <button class="dropdown-toggle" aria-label="Hotel options">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8 4L4 8L8 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+      
+      <nav class="sidebar-nav">
+        <div class="nav-group">
+          <h3 class="nav-group-title">DAILY OPERATION</h3>
+          <ul class="nav-list">
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <span class="nav-icon">📊</span>
+                <span class="nav-text">Dashboard</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <span class="nav-icon">🗓️</span>
+                <span class="nav-text">Reservation</span>
+                <span class="dropdown-icon">▼</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <span class="nav-icon">🏨</span>
+                <span class="nav-text">Room Operation</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <span class="nav-icon">👥</span>
+                <span class="nav-text">Manage Staff</span>
+                <span class="dropdown-icon">▼</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <span class="nav-icon">👨‍👩‍👧‍👦</span>
+                <span class="nav-text">Manage Guests</span>
+                <span class="dropdown-icon">▼</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <span class="nav-icon">🎟️</span>
+                <span class="nav-text">Promotions</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+        
+        <div class="nav-group">
+          <h3 class="nav-group-title">ACCOUNTING</h3>
+          <ul class="nav-list">
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <span class="nav-icon">📝</span>
+                <span class="nav-text">Report</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <span class="nav-icon">🛠️</span>
+                <span class="nav-text">Maintenance</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+        
+        <div class="nav-group">
+          <h3 class="nav-group-title">SYSTEM OPTIONS</h3>
+          <ul class="nav-list">
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <span class="nav-icon">🖥️</span>
+                <span class="nav-text">Manage Platform</span>
+              </a>
+            </li>
+            <li class="nav-item active">
+              <a href="#" class="nav-link">
+                <span class="nav-icon">⬆️</span>
+                <span class="nav-text">Upgrade Plan</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <span class="nav-icon">⚙️</span>
+                <span class="nav-text">Settings</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      
+      <div class="sidebar-footer">
+        <ul class="footer-nav">
+          <li class="footer-item">
+            <a href="#" class="footer-link">
+              <span class="nav-icon">🔔</span>
+              <span class="nav-text">Notifications</span>
+              <span class="badge">3</span>
+            </a>
+          </li>
+          <li class="footer-item">
+            <a href="#" class="footer-link">
+              <span class="nav-icon">❓</span>
+              <span class="nav-text">Support</span>
+            </a>
+          </li>
+        </ul>
+        
+        <div class="user-profile">
+          <div class="user-avatar">R</div>
+          <div class="user-details">
+            <h4 class="user-name">Rahat Ali</h4>
+            <span class="user-role">Super Admin</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+    
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <!-- Breadcrumb -->
+      <div class="breadcrumb">
+        <a href="#" class="breadcrumb-item">
+          <span class="breadcrumb-icon">🏠</span>
+        </a>
+        <span class="breadcrumb-separator">/</span>
+        <span class="breadcrumb-item">Upgrade Plan</span>
+      </div>
+      
+      <!-- Page Content -->
+      <div class="page-content">
+        <div class="page-header">
+          <div class="page-title">
+            <div class="title-icon">🖼️</div>
+            <div class="title-content">
+              <h1>Upgrade Plan <span class="favorite-icon">☆</span></h1>
+              <p class="title-subtitle">Auto-updates in 2 min</p>
+            </div>
+          </div>
+          <div class="page-actions">
+            <button class="action-button" aria-label="More options">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <circle cx="10" cy="5" r="1.5" fill="currentColor"/>
+                <circle cx="10" cy="10" r="1.5" fill="currentColor"/>
+                <circle cx="10" cy="15" r="1.5" fill="currentColor"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        
+        <!-- Plan Selection -->
+        <div class="plan-selection">
+          <div class="billing-toggle">
+            <button class="billing-option active">Monthly</button>
+            <button class="billing-option">Annual <span class="discount-tag">Save 50%</span></button>
+          </div>
+          
+          <div class="plan-cards">
+            <!-- Free Plan -->
+            <div class="plan-card">
+              <div class="plan-header">
+                <h2 class="plan-name">Free</h2>
+                <p class="plan-description">Basic tools to manage bookings and guests, perfect for small or new businesses.</p>
+              </div>
+              
+              <div class="plan-price">
+                <div class="price">
+                  <span class="currency">$</span>
+                  <span class="amount">0</span>
+                </div>
+                <div class="price-label">Free</div>
+              </div>
+              
+              <button class="plan-button current">Current Plan</button>
+              
+              <ul class="feature-list">
+                <li class="feature-item">
+                  <span class="feature-icon check">✓</span>
+                  <span class="feature-text">Access to all basic</span>
+                </li>
+                <li class="feature-item">
+                  <span class="feature-icon check">✓</span>
+                  <span class="feature-text">Access to 01-05 rooms</span>
+                </li>
+                <li class="feature-item">
+                  <span class="feature-icon check">✓</span>
+                  <span class="feature-text">Basic hotel management analytics</span>
+                </li>
+                <li class="feature-item">
+                  <span class="feature-icon check">✓</span>
+                  <span class="feature-text">Basic accounting and HR system</span>
+                </li>
+                <li class="feature-item">
+                  <span class="feature-icon check">✓</span>
+                  <span class="feature-text">Basic marketing tool</span>
+                </li>
+                <li class="feature-item">
+                  <span class="feature-icon check">✓</span>
+                  <span class="feature-text">Basic accounting and HR system</span>
+                </li>
+              </ul>
+            </div>
+            
+            <!-- Pro Plan -->
+            <div class="plan-card highlighted">
+              <div class="popular-tag">
+                <span class="popular-icon">★</span>
+                <span class="popular-text">Most Popular</span>
+              </div>
+              <div class="discount-tag plan-discount">Save 50%</div>
+              
+              <div class="plan-header">
+                <h2 class="plan-name">Pro</h2>
+                <p class="plan-description">Advanced features for growing hotels, including integrations and detailed analytics.</p>
+              </div>
+              
+              <div class="plan-price">
+                <div class="price">
+                  <span class="currency">$</span>
+                  <span class="amount">99.99</span>
+                </div>
+                <div class="price-original">$199.99</div>
+                <div class="price-label">Per agent, per month, billed annually</div>
+              </div>
+              
+              <button class="plan-button primary">Upgrade to Pro</button>
+              
+              <ul class="feature-list">
+                <li class="feature-item">
+                  <span class="feature-icon check">✓</span>
+                  <span class="feature-text">Access to 01-20 rooms</span>
+                </li>
+                <li class="feature-item">
+                  <span class="feature-icon check">✓</span>
+                  <span class="feature-text">Access to point of sale</span>
+                </li>
+                <li class="feature-item">
+                  <span class="feature-icon check">✓</span>
+                  <span class="feature-text">Channel Manager Connectivity</span>
+                </li>
+                <li class="feature-item">
+                  <span class="feature-icon check">✓</span>
+                  <span class="feature-text">Custom analytics & reporting</span>
+                </li>
+                <li class="feature-item">
+                  <span class="feature-icon check">✓</span>
+                  <span class="feature-text">24/7 Live chat support</span>
+                </li>
+                <li class="feature-item">
+                  <span class="feature-icon check">✓</span>
+                  <span class="feature-text">2 Customizations section add</span>
+                </li>
+                <li class="feature-item">
+                  <span class="feature-icon check">✓</span>
+                  <span class="feature-text">Access to marketing tool</span>
+                </li>
+              </ul>
+            </div>
+            
+            <!-- Premium Plan -->
+            <div class="plan-card">
+              <div class="plan-header">
+                <h2 class="plan-name">Premium</h2>
+                <p class="plan-description">Comprehensive tools for enterprises, with custom solutions and dedicated support.</p>
+              </div>
+              
+              <div class="plan-price">
+                <div class="price">
+                  <span class="currency">$</span>
+                  <span class="amount">299.99</span>
+                </div>
+                <div class="price-label">Per agent, per month, billed annually</div>
+              </div>
+              
+              <button class="plan-button secondary">Upgrade to Premium</button>
+              
+              <ul class="feature-list">
+                <li class="feature-item">
+                  <span class="feature-icon check">✓</span>
+                  <span class="feature-text">Access to unlimited rooms</span>
+                </li>
+                <li class="feature-item">
+                  <span class="feature-icon check">✓</span>
+                  <span class="feature-text">Access to point of sale</span>
+                </li>
+                <li class="feature-item">
+                  <span class="feature-icon check">✓</span>
+                  <span class="feature-text">Channel Manager Connectivity</span>
+                </li>
+                <li class="feature-item">
+                  <span class="feature-icon check">✓</span>
+                  <span class="feature-text">Unlimited custom analytics & reporting</span>
+                </li>
+                <li class="feature-item">
+                  <span class="feature-icon check">✓</span>
+                  <span class="feature-text">Unlimited customizations section add</span>
+                </li>
+                <li class="feature-item">
+                  <span class="feature-icon check">✓</span>
+                  <span class="feature-text">1 free domain & hosting</span>
+                </li>
+                <li class="feature-item">
+                  <span class="feature-icon check">✓</span>
+                  <span class="feature-text">24/7 Live chat support</span>
+                </li>
+                <li class="feature-item">
+                  <span class="feature-icon check">✓</span>
+                  <span class="feature-text">Access to marketing tool</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
