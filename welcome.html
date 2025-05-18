@@ -22,16 +22,21 @@
         <!-- Header Banner -->
         <div
             class="relative bg-gradient-to-r from-blue-600 to-blue-900 text-white px-6 pb-10 pt-6 rounded-b-2xl max-sm:rounded-none h-[400px] overflow-hidden z-[-1]">
-            <div class="absolute w-60 h-60 bg-white/10  border-2 border-white/15 rounded-full top-[-100px] right-[-90px] z-0"></div>
-            <div class="absolute w-40 h-40 bg-white/10  border-2 border-white/15 rounded-full bottom-[-30px] left-[-50px] z-0"></div>
+            <div
+                class="absolute w-60 h-60 bg-white/10  border-2 border-white/15 rounded-full top-[-100px] right-[-90px] z-0">
+            </div>
+            <div
+                class="absolute w-40 h-40 bg-white/10  border-2 border-white/15 rounded-full bottom-[-30px] left-[-50px] z-0">
+            </div>
             <div class="relative z-10">
                 <div class="flex items-center gap-3 mb-2">
-                    <div class="w-[34px] h-[34px] rounded-full border-2 border-white overflow-hidden">
+                    <div class="w-[42px] h-[42px] rounded-full border-3 border-green-400 overflow-hidden">
                         <img src="https://i.pravatar.cc/100?img=3" alt="Profile" class="w-full h-full object-cover">
                     </div>
                     <div>
                         <div class="text-xl font-semibold">Hello, Pondenet</div>
-                        <div class="flex items-center gap-1 text-sm opacity-90 time-info">Good Night, 20:00 PM</div>
+                        <div class="flex items-center gap-1 text-sm font-thin opacity-90 time-info">Good Night, 20:00 PM
+                        </div>
                     </div>
                 </div>
             </div>
@@ -112,9 +117,9 @@
             <a href="#" class="text-sm  font-thin text-blue-600">See all</a>
         </div>
 
-        <div class="px-6 pb-28">
+        <div class="grid grid-cols-2 gap-2 px-6 pb-28">
 
-            <div class="flex flex-col gap-3 bg-white rounded-xl p-5 mb-4 border-2 border-gray-100">
+            <div class="flex flex-col gap-3 bg-white rounded-xl p-4 mb-4 border-2 border-gray-100">
                 <div class="flex flex-row justify-between items-center">
                     <div
                         class="w-9 h-9 rounded-full border border-blue-100 flex items-center justify-center text-blue-600 text-lg">
@@ -123,20 +128,19 @@
                     <div class="text-xs text-gray-500 border border-blue-100 rounded-full py-1 px-2">All apps</div>
                 </div>
                 <div class="flex flex-col items-start">
-                    <div class="text-xs text-gray-500">5 hour package • for 1 device</div>
+                    <div class="text-xs text-gray-500">5 hour package •<br> for 1 device</div>
                     <div class="font-semibold text-base">Unlimited</div>
                 </div>
-                <div class="flex flex-row items-center justify-between">
-                    <div class="text-xl font-bold">KES 2.000</div>
-                    <button class="bg-blue-100 text-blue-500 px-4 py-2 rounded-full text-sm font-medium">
+                <div class="flex flex-col items-start gap-2">
+                    <div class="text-xl font-bold">KES 2</div>
+                    <button class="bg-blue-100 w-full text-blue-500 px-4 py-2 rounded-full text-sm font-medium">
                         Buy now
                     </button>
                 </div>
             </div>
 
 
-
-            <div class="flex flex-col gap-3 bg-white rounded-xl p-5 mb-4 border-2 border-gray-100">
+            <div class="flex flex-col gap-3 bg-white rounded-xl p-4 mb-4 border-2 border-gray-100">
                 <div class="flex flex-row justify-between items-center">
                     <div
                         class="w-9 h-9 rounded-full border border-blue-100 flex items-center justify-center text-blue-600 text-lg">
@@ -145,12 +149,53 @@
                     <div class="text-xs text-gray-500 border border-blue-100 rounded-full py-1 px-2">All apps</div>
                 </div>
                 <div class="flex flex-col items-start">
-                    <div class="text-xs text-gray-500">1 hour package • for 2 device</div>
+                    <div class="text-xs text-gray-500">1 hour package •<br> for 2 devices</div>
                     <div class="font-semibold text-base">Unlimited</div>
                 </div>
-                <div class="flex flex-row items-center justify-between">
-                    <div class="text-xl font-bold">KES 5.000</div>
-                    <button class="bg-blue-100 text-blue-500 px-4 py-2 rounded-full text-sm font-medium">
+                <div class="flex flex-col items-start gap-2">
+                    <div class="text-xl font-bold">KES 5</div>
+                    <button class="bg-blue-100 w-full text-blue-500 px-4 py-2 rounded-full text-sm font-medium">
+                        Buy now
+                    </button>
+                </div>
+            </div>
+
+            <div class="flex flex-col gap-3 bg-white rounded-xl p-4 mb-4 border-2 border-gray-100">
+                <div class="flex flex-row justify-between items-center">
+                    <div
+                        class="w-9 h-9 rounded-full border border-blue-100 flex items-center justify-center text-blue-600 text-lg">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <div class="text-xs text-gray-500 border border-blue-100 rounded-full py-1 px-2">All apps</div>
+                </div>
+                <div class="flex flex-col items-start">
+                    <div class="text-xs text-gray-500">5 hour package •<br> for 1 device</div>
+                    <div class="font-semibold text-base">Unlimited</div>
+                </div>
+                <div class="flex flex-col items-start gap-2">
+                    <div class="text-xl font-bold">KES 2</div>
+                    <button class="bg-blue-100 w-full text-blue-500 px-4 py-2 rounded-full text-sm font-medium">
+                        Buy now
+                    </button>
+                </div>
+            </div>
+
+
+            <div class="flex flex-col gap-3 bg-white rounded-xl p-4 mb-4 border-2 border-gray-100">
+                <div class="flex flex-row justify-between items-center">
+                    <div
+                        class="w-9 h-9 rounded-full border border-blue-100 flex items-center justify-center text-blue-600 text-lg">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <div class="text-xs text-gray-500 border border-blue-100 rounded-full py-1 px-2">All apps</div>
+                </div>
+                <div class="flex flex-col items-start">
+                    <div class="text-xs text-gray-500">1 hour package •<br> for 2 devices</div>
+                    <div class="font-semibold text-base">Unlimited</div>
+                </div>
+                <div class="flex flex-col items-start gap-2">
+                    <div class="text-xl font-bold">KES 5</div>
+                    <button class="bg-blue-100 w-full text-blue-500 px-4 py-2 rounded-full text-sm font-medium">
                         Buy now
                     </button>
                 </div>
